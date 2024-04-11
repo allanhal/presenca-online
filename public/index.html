@@ -31,7 +31,7 @@
     }
     async function mandarPresenca() {
       const response = await fetch(
-        `https://presenca-online.onrender.com/dar-presenca?aula=${aula}&professor=${professor}&turno=${turno}&nome=${document.getElementById("nome").value}`
+        `/dar-presenca?aula=${aula}&professor=${professor}&turno=${turno}&nome=${document.getElementById("nome").value}`
       );
       document.getElementById("presenca").setAttribute("disabled", "disabled")
     }

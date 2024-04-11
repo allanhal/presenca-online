@@ -19,6 +19,6 @@ app.get('/ver-presenca', async (req, res) => {
 });
 
 // Start server
-app.listen(3333, () => {
-  console.log(`3333 is running web server`);
+app.listen(process.env.PORT, () => {
+  console.log(`${process.env.PORT} is running web server`);
 });

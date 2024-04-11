@@ -10,14 +10,14 @@
 
 <body>
   <p>
-    <input type="text" name="" id="dia" placeholder="Insira dia"  />
+    <input id="dia" placeholder="Insira dia" />
     <!-- Dia: <span id="data"></span> -->
   </p>
   <p>
-    <input type="text" name="" id="professor" placeholder="Insira professor" />
+    <input id="professor" placeholder="Insira professor" />
   </p>
   <p>
-    <input type="text" name="" id="turno" placeholder="Insira turno" />
+    <input id="turno" placeholder="Insira turno" />
   </p>
   <button onclick="gerarQRCODE()">Gerar QRCODE</button>
   <img id="qrcode" src="" />
@@ -49,10 +49,14 @@
         .join("");
     }
     async function gerarQRCODE() {
-      var dia = document.getElementById("dia").value
+      const dia = document.getElementById("dia").value
       var professor = document.getElementById("professor").value
-      var turno = document.getElementById("turno").value
+      let turno = document.getElementById("turno").value
       var qrcode = `https://api.qrserver.com/v1/create-qr-code/?size=1000x1000&data=https://presenca-virtual.onrender.com/%3Faula=${dia}%26professor=${professor}%26turno=${turno}`
+      // https://presenca-virtual.onrender.com/?aula=xxx&professor=yyy&turno=zzz
+      // https://presenca-virtual.onrender.com/%3Faula=${dia}%26professor=${professor}%26turno=${turno}
+      // https://presenca-virtual.onrender.com/%3Faula=dia%26professor=dia%26turno=dia/
+      // https://api.qrserver.com/v1/create-qr-code/?size=1000x1000&data=https://presenca-virtual.onrender.com/?aula=xxx&professor=yyy&turno=zzz
       console.log(qrcode)
       document.getElementById("qrcode").src = qrcode
     }

@@ -10,7 +10,8 @@
 
 <body>
   <p>
-    <input type="text" name="" id="dia" placeholder="Insira dia" />
+    <input type="text" name="" id="dia" placeholder="Insira dia"  />
+    <!-- Dia: <span id="data"></span> -->
   </p>
   <p>
     <input type="text" name="" id="professor" placeholder="Insira professor" />
@@ -26,6 +27,7 @@
   </p>
 
   <script>
+    // document.getElementById("data").innerHTML = new Date().toDateString()
     async function atualizar() {
       const response = await fetch(
         "/ver-presenca"

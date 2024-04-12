@@ -1,11 +1,9 @@
-// @ts-nocheck
+// Servidor backend
 const express = require('express');
-
 const app = express();
 
 let presenca = [];
 
-// Set middleware of CORS
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', 'https://your-frontend.com');
   res.setHeader(
@@ -37,7 +35,6 @@ app.get('/ver-presenca', async (req, res) => {
   res.json(presenca);
 });
 
-// Start server
 app.listen(process.env.PORT || 3333, () => {
   console.log(`${process.env.PORT || 3333} is running web server`);
 });

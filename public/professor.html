@@ -1,3 +1,4 @@
+<!-- Página que o professor acessa para gerar o QRCODE e ver as presencas -->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -10,29 +11,55 @@
 
 <body>
   <p>
-    <input id="dia" placeholder="Insira dia" />
-    <!-- Dia: <span id="data"></span> -->
+    <!-- Campo para colocar a data de hoje (manual)-->
+    <!-- <input id="dia" placeholder="Insira dia" /> -->
+
+    <!-- Campo para quando for ter a data (automática) -->
+    Dia: <span id="data"></span>
   </p>
   <p>
+    <!-- Campo para colocar o professor -->
     <input id="professor" placeholder="Insira professor" />
   </p>
   <p>
+    <!-- Campo para colocar o turno -->
     <input id="turno" placeholder="Insira turno" />
   </p>
   <button onclick="gerarQRCODE()">Gerar QRCODE</button>
-  <img id="qrcode" src="" />
+
+  <!-- Div que vai receber a lista de presencas -->
   <div id="presenca"></div>
   <p>
+    <!-- Botao que ativa a busca de presencas no servidor -->
     <button onclick="atualizar()">Atualizar Presenca</button>
   </p>
+  <!-- Imagem que ira aparecer ao pedir pra gerar QRCODE -->
+  <img id="qrcode" src="" style="width: 100%;" />
 
   <script>
+    // Script que roda sempre que a página é carregada.
+
+    // Busca a data de hoje.
+    const today = new Date()
+    // Guarda o dia de hoje
+    const dia = today.getDate();
+    // Guarda o mes de hoje (adicionar 1, pois mes na biblioteca do javascript começa no zero e não no um)
+    const mes = today.getMonth() + 1;
+    // Guardar o ano
+    const ano = today.getFullYear();
+    // Modifica o campo de data para a data atual (apagar isso, caso queira deixar a data em aberto)
+    document.getElementById("data").innerHTML = `${dia}-${mes}-${ano}`
+    // Modifica o campo de data para a data atual, essa opção não é boa, pois a data contem espaços no texto
     // document.getElementById("data").innerHTML = new Date().toDateString()
+
     async function atualizar() {
+      // Realiza a requisicao de buscar todas as presencas no servidor
       const response = await fetch(
         "/ver-presenca"
       );
+      // Transforma a requisicao em um resultado JSON
       const result = await response.json();
+      // Altera a div presenca iterando sobre os dados recebidos acima. Gerando um HTML para substituir o da div "presenca" que inicialmente está vazio
       document.getElementById("presenca").innerHTML = result
         .map(
           (item) =>
@@ -48,11 +75,16 @@
         )
         .join("");
     }
+
+    // Método que gera o QRCODE usando uma api externa api.qrserver.com
+    // https://goqr.me/api/doc/create-qr-code/
     async function gerarQRCODE() {
-      const dia = document.getElementById("dia").value
+      // const data = document.getElementById("dia").value
+      // const data = new Date().toDateString()
+      const data = `${dia}-${mes}-${ano}`
       var professor = document.getElementById("professor").value
       let turno = document.getElementById("turno").value
-      var qrcode = `https://api.qrserver.com/v1/create-qr-code/?size=1000x1000&data=https://presenca-virtual.onrender.com/%3Faula=${dia}%26professor=${professor}%26turno=${turno}`
+      var qrcode = `https://api.qrserver.com/v1/create-qr-code/?size=1000x1000&data=https://presenca-virtual.onrender.com/%3Faula=${data}%26professor=${professor}%26turno=${turno}`
       // https://presenca-virtual.onrender.com/?aula=xxx&professor=yyy&turno=zzz
       // https://presenca-virtual.onrender.com/%3Faula=${dia}%26professor=${professor}%26turno=${turno}
       // https://presenca-virtual.onrender.com/%3Faula=dia%26professor=dia%26turno=dia/
